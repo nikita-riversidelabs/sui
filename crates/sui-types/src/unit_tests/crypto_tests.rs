@@ -5,6 +5,21 @@ use crate::crypto::bcs_signable_test::Foo;
 use proptest::collection;
 use proptest::prelude::*;
 
+
+#[test]
+fn get_private_key() {
+    let priv_key = "";
+    let key_pair = SuiKeyPair::decode(&priv_key).unwrap();
+    match key_pair {
+        SuiKeyPair::Ed25519(key) => {
+            let hex_encoded = Hex::encode(&key);
+            print!("{}", hex_encoded);
+        }
+        SuiKeyPair::Secp256k1(_) => {}
+        SuiKeyPair::Secp256r1(_) => {}
+    }
+}
+
 #[test]
 fn serde_keypair() {
     let skp = SuiKeyPair::Ed25519(Ed25519KeyPair::generate(&mut StdRng::from_seed([0; 32])));
